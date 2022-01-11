@@ -2,38 +2,42 @@
 
 public class Maillon {
 
-    private BigInteger valeur; 
+    private BigInteger valeur;
     private Maillon suivant;
 
-    /** Constructeur vide */
-    public Maillon () { 
-	suivant = null; 
+    /**
+     * Constructeur vide
+     */
+    public Maillon() {
+        suivant = null;
     }
 
-    /** Constructeur avec la valeur */
-    public Maillon (BigInteger n) { 
-	valeur = n;
-	suivant = null; 
+    /**
+     * Constructeur avec la valeur
+     */
+    public Maillon(BigInteger n) {
+        valeur = n;
+        suivant = null;
     }
 
     public BigInteger getVal() {
-	return this.valeur;
+        return this.valeur;
     }
 
     public void setVal(BigInteger v) {
-	this.valeur = v;
+        this.valeur = v;
     }
 
-    public Maillon getSuiv () {
-	return this.suivant;
+    public Maillon getSuiv() {
+        return this.suivant;
     }
 
-    public void setSuiv (Maillon m) {
-	this.suivant = m;
+    public void setSuiv(Maillon m) {
+        this.suivant = m;
     }
 
-    public String toString () {
-	return this.valeur+"";
+    public String toString() {
+        return this.valeur + "";
     }
 
     /* -------------------------------------------------- */
