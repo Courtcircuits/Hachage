@@ -8,8 +8,9 @@ public class Dictionnaire {
         this.dico = new HTNaive(m);
     }
 
-    public static void main(String[] args) {
-        System.out.println(Dictionnaire.stringToBigInteger("tset"));
+    public Dictionnaire(String fileName, int m) {
+        this(m);
+        this.dico.ajoutListe(calculeListeInt(fileName));
     }
 
     private static BigInteger stringToBigInteger(String s) {

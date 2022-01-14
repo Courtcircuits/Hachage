@@ -1,4 +1,4 @@
-﻿import java.math.BigInteger;
+import java.math.BigInteger;
 
 public class HTNaive {
 
@@ -32,20 +32,12 @@ public class HTNaive {
     /*
      * Retourne la longeur de l si tous les éléments de l sont distinct sinon retourne 0
      */
-    private static int tempH(ListeBigI l) {
-        int m = l.longueur();
-        Maillon curseur1 = l.getTete();
-        Maillon curseur2 = l.getTete();
-        while (curseur1 != null) {
-            while (curseur2 != null) {
-                if (curseur1.getVal().equals(curseur2.getVal()) && curseur1.getSuiv() != curseur2.getSuiv()) {
-                    m--;
-                }
-                curseur2 = curseur2.getSuiv();
-            }
-            curseur1 = curseur1.getSuiv();
-        }
-        return m;
+    private static int tempSize(ListeBigI listeBigI) {
+        final ListeBigI copyListe = new ListeBigI(listeBigI);
+        final HTNaive elements = new HTNaive(1);
+        for (int i = 0; i < listeBigI.longueur(); i++)
+            elements.ajout(copyListe.supprTete());
+        return elements.getCardinal();
     }
 
     /**

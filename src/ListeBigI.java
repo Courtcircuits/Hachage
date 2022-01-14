@@ -1,10 +1,11 @@
-﻿
+
 import java.math.BigInteger;
 
 public class ListeBigI {
 
 	private Maillon tete;
 	private int longueur;
+
 
 	/**
 	 * Constructeur d'une liste vide
