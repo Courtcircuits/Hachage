@@ -2,20 +2,17 @@ import java.math.BigInteger;
 
 public class HTNaive {
 
-    private ListeBigI[] t;
+    private final ListeBigI[] t;
+    private int longeur;
+
+    private long totalTimeH = 0;
+    private long totalTimeContient = 0;
 
     public HTNaive(int m) {
-        t = new ListeBigI[m];
+        this.t = new ListeBigI[m];
+        this.longeur = 0;
         for (int i = 0; i < m; i++)
             t[i] = new ListeBigI();
-    }
-
-    /**
-     * Retourne la "hauteur" de la liste de hachage
-     */
-    private int h(BigInteger u) {
-        final BigInteger m = BigInteger.valueOf(t.length);
-        return u.remainder(m).intValue();
     }
 
     public HTNaive(ListeBigI l, int m) {
@@ -23,15 +20,18 @@ public class HTNaive {
         this.ajoutListe(l);
     }
 
-
     public HTNaive(ListeBigI l, double f) {
-        this((int) (tempH(l) * f));
+        this((int) (tempSize(l) * f));
     }
 
+    public HTNaive(int tailleListe, double f) {
+        this((int) (tailleListe * f));
+    }
 
     /*
      * Retourne la longeur de l si tous les éléments de l sont distinct sinon retourne 0
      */
+
     private static int tempSize(ListeBigI listeBigI) {
         final ListeBigI copyListe = new ListeBigI(listeBigI);
         final HTNaive elements = new HTNaive(1);
@@ -41,10 +41,25 @@ public class HTNaive {
     }
 
     /**
+     * Retourne la "hauteur" de la liste de hachage
+     */
+    private int h(BigInteger u) {
+        long start = System.currentTimeMillis();
+        final BigInteger m = BigInteger.valueOf(t.length);
+        int value = u.remainder(m).intValue();
+        totalTimeH += System.currentTimeMillis() - start;
+        return value;
+    }
+
+    /**
      * Retourne vrai si la table de hachage contient l'élement u, sinon faux
      */
     public boolean contient(BigInteger u) {
-        return this.t[this.h(u)].contient(u);
+        int h = this.h(u);
+        long start = System.currentTimeMillis();
+        boolean value = this.t[h].contient(u);
+        totalTimeContient += System.currentTimeMillis() - start;
+        return value;
     }
 
     /**
@@ -53,10 +68,20 @@ public class HTNaive {
     public boolean ajout(BigInteger u) {
         if (!contient(u)) {
             this.t[h(u)].ajoutTete(u);
+            longeur++;
             return true;
         } else {
             return false;
         }
+    }
+
+    /**
+     * Pré-requis : u ne se trouve pas dans la table de hachage
+     * Action - ajoute u dans la table de hachage
+     */
+    public void ajoutForce(BigInteger u) {
+        this.t[h(u)].ajoutTete(u);
+        longeur++;
     }
 
     /**
@@ -76,7 +101,7 @@ public class HTNaive {
      * Retourne le nombre d'élements de la table de hachage
      */
     public int getCardinal() {
-        return getElements().longueur();
+        return longeur;
     }
 
     /**
@@ -112,22 +137,16 @@ public class HTNaive {
      * Retourne le nombre de listes (vides ou non) de la table
      */
     public int getNbListes() {
-        int i = 0;
-        for (int k = 0; k < t.length; k++) {
-            if (t[i].longueur() != 0) {
-                i++;
-            }
-        }
-        return i;
+        return t.length;
     }
 
     /**
-     * Retourne une chaine de la forme:
+     * Retourne une chaine de la forme :
      * [
-     * 0 - (...)
-     * 1 - (...)
-     * .
-     * .
+     *      0 - (...)
+     *      1 - (...)
+     *      2 - (...)
+     *      ...
      * ]
      */
     @Override
@@ -159,5 +178,21 @@ public class HTNaive {
         ch.append("]");
 
         return ch.toString();
+    }
+
+    public long getTotalTimeContient() {
+        return totalTimeContient;
+    }
+
+    public long getTotalTimeH() {
+        return totalTimeH;
+    }
+
+    public void resetTotalTimeContient() {
+        this.totalTimeContient = 0;
+    }
+
+    public void resetTotalTimeH() {
+        this.totalTimeH = 0;
     }
 }

@@ -6,7 +6,6 @@ public class ListeBigI {
 	private Maillon tete;
 	private int longueur;
 
-
 	/**
 	 * Constructeur d'une liste vide
 	 */
@@ -110,10 +109,10 @@ public class ListeBigI {
 	}
 
 	public String toString() {
-		String s = "(";
+		StringBuilder s = new StringBuilder("(");
 		Maillon courant = this.tete;
 		while (courant != null) {
-			s = s + (courant.getVal()) + ((courant.getSuiv() != null) ? ", " : "");
+			s.append(courant.getVal()).append((courant.getSuiv() != null) ? ", " : "");
 			courant = courant.getSuiv();
 		}
 		return s + ")";
